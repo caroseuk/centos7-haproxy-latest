@@ -23,7 +23,7 @@ echo ""
 
 ## Install pre-requisites if not already installed
 echo "Installing pre-requisites if not already installed..."
-yum install wget gcc pcre-static pcre-devel
+yum install -y wget gcc pcre-static pcre-devel
 
 echo "Please enter the version of HA Proxy you would like to install (eg 1.7.4 or 1.8.4):"
 read HAPVersion
