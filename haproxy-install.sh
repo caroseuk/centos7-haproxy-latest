@@ -37,10 +37,10 @@ tar xzvf haproxy.tar.gz
 cd haproxy-$HAPVersion
 
 ## Run MAKE on contents
-make TARGET=generic ARCH=native PREFIX=/usr CPU=x86_64 -j8
+make TARGET=generic ARCH=native CPU=x86_64 -j8
 
 ## Install newly compiled source
-make install
+make install PREFIX=/usr
 
 ## Copy HAProxy example init.d file to /etc/init.d/haproxy
 cp ~/haproxy-$HAPVersion/examples/haproxy.init /etc/init.d/haproxy
@@ -55,9 +55,6 @@ cp ~/haproxy-$HAPVersion/examples/content-sw-sample.cfg /etc/haproxy/haproxy.cfg
 
 ## Create new user for HAProxy to run as
 useradd -r haproxy
-
-## Copy haproxy binary to /usr/sbin/haproxy
-cp $(which haproxy) /usr/sbin/
 
 ## Reload system daemon to recognize newly created HAproxy init.d file
 systemctl daemon-reload
