@@ -2,7 +2,7 @@
 ## Downloads/builds and installs HAProxy from Source on CentOS 7.
 ### Tested on CentOS 7.4 (Digital Ocean)
 This is a simple BASH script that prompts the user for a prefered HAProxy version (List available on HAProxy website), downloads/builds and installs from source. 
-<br />
+<br /><br />
 **Please feel free to enhance this script and send any pull requests.**
 
 # How to use
