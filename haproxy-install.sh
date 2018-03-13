@@ -44,7 +44,7 @@ cd haproxy-$HAPVersion
 
 ## Run MAKE on contents
 echo "Building source, please wait..."
-make TARGET=generic ARCH=native CPU=`uname -m` -j8 &> /dev/null
+make TARGET=generic ARCH=native CPU=$(uname -m) -j8 &> /dev/null
 
 ## Install newly compiled source
 echo "Installing HA Proxy..."
