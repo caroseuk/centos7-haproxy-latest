@@ -23,21 +23,23 @@ echo ""
 
 ## Install pre-requisites if not already installed
 echo "Installing pre-requisites if not already installed..."
-yum install -y wget gcc pcre-static pcre-devel
+yum install -y wget gcc pcre-static pcre-devel &> /dev/null
 
 echo "Please enter the version of HA Proxy you would like to install (eg 1.7.4 or 1.8.4):"
 read HAPVersion
+shortHAPVersion="$( cut -d '.' -f 1 -f 2 <<< "$HAPVersion" )"
+
 ## Download the latest version of HA Proxy Source
-wget http://www.haproxy.org/download/1.8/src/haproxy-$HAPVersion.tar.gz -O haproxy.tar.gz
+wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.tar.gz -O haproxy-$HAPVersion.tar.gz
 
 ## Uncompress the tar
-tar xzvf haproxy.tar.gz
+tar xzvf haproxy-$HAPVersion.tar.gz
 
 ## Navigate to newly created directory
 cd haproxy-$HAPVersion
 
 ## Run MAKE on contents
-make TARGET=generic ARCH=native CPU=x86_64 -j8
+make TARGET=generic ARCH=native CPU=`uname -m` -j8
 
 ## Install newly compiled source
 make install PREFIX=/usr
