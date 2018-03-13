@@ -47,9 +47,10 @@ wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.ta
 echo ""
 
 ## Uncompress the tar and remove downloaded archive
-echo "Uncompressing tar archive..."
+echo "* Uncompressing tar archive..."
 tar xzvf haproxy-$HAPVersion.tar.gz &> /dev/null
-echo "Removing old tar archive..."
+echo ""
+echo "* Removing old tar archive..."
 rm haproxy-$HAPVersion.tar.gz &> /dev/null
 echo ""
 
@@ -57,17 +58,17 @@ echo ""
 cd haproxy-$HAPVersion
 
 ## Run MAKE on contents
-echo "Building source, please wait..."
+echo "* Building source, please wait..."
 make TARGET=generic ARCH=native CPU=$(uname -m) -j8 &> /dev/null
 echo ""
 
 ## Install newly compiled source
-echo "Installing HAProxy $HAPVersion ..."
+echo "* Installing HAProxy $HAPVersion ..."
 make install PREFIX=/usr &> /dev/null
 echo ""
 
 ## Copy HAProxy example init.d file to /etc/init.d/haproxy
-echo "Creating Init Scripts..."
+echo "* Creating Init Scripts..."
 cp ~/haproxy-$HAPVersion/examples/haproxy.init /etc/init.d/haproxy 
 chmod 755 /etc/init.d/haproxy
 echo ""
@@ -103,21 +104,21 @@ echo ""
 
     if [ ! -f "$haproxyconffile" ]
     then
-        wget https://gist.githubusercontent.com/caroseuk/cc16fbef5e94a3a38837b50690eebb14/raw/79549fdd7a134e1d847d491d9867167c04fbf9a6/gistfile1.txt -O /etc/haproxy/haproxy.cfg
+        wget https://gist.githubusercontent.com/caroseuk/cc16fbef5e94a3a38837b50690eebb14/raw/79549fdd7a134e1d847d491d9867167c04fbf9a6/gistfile1.txt -O /etc/haproxy/haproxy.cfg &> /dev/null
         #cp ~/haproxy-$HAPVersion/examples/content-sw-sample.cfg /etc/haproxy/haproxy.cfg
     else
         echo "/etc/haproxy/haproxy.cfg file already exists.. skipping..."
     fi
 
 ## Create new user for HAProxy to run as
-echo "Adding haproxy user (if not already created)..."
+echo "* Adding haproxy user (if not already created)..."
 useradd -r haproxy
 echo ""
 
 ## Reload system daemon to recognize newly created HAproxy init.d file
-echo "Finishing up, reloading daemon-reload"
+echo "* Finishing up, reloading daemon-reload"
 systemctl daemon-reload
 echo ""
 
 ## Install complete, give user the good news.
-echo "HA Proxy $HAPVersion Installed and example configuration copied, you may now configure and start HA Proxy."
+echo "** HA Proxy $HAPVersion Installed and example configuration copied **"
