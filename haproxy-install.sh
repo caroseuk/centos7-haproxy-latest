@@ -98,12 +98,13 @@ echo ""
     then
         touch /var/lib/haproxy/stats
     else
-        echo "/var/lib/haproxy file already exists.. skipping..."
+        echo "/var/lib/haproxy/stats file already exists.. skipping..."
     fi
 
     if [ ! -f "$haproxyconffile" ]
     then
-        cp ~/haproxy-$HAPVersion/examples/content-sw-sample.cfg /etc/haproxy/haproxy.cfg
+        wget https://gist.githubusercontent.com/caroseuk/cc16fbef5e94a3a38837b50690eebb14/raw/79549fdd7a134e1d847d491d9867167c04fbf9a6/gistfile1.txt -O /etc/haproxy/haproxy.cfg
+        #cp ~/haproxy-$HAPVersion/examples/content-sw-sample.cfg /etc/haproxy/haproxy.cfg
     else
         echo "/etc/haproxy/haproxy.cfg file already exists.. skipping..."
     fi
