@@ -1,10 +1,6 @@
 #!/bin/bash
 
-## Ensure your system is up to date
-# yum update -y
-## Reboot if needed (eg new Kernel)
-# reboot
-
+echo ""
 echo ""
 echo ""
 echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
