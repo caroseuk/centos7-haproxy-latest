@@ -27,7 +27,7 @@ yum install -y wget gcc pcre-static pcre-devel &> /dev/null
 
 echo "Please enter the version of HA Proxy you would like to install (eg 1.7.4 or 1.8.4):"
 read HAPVersion
-shortHAPVersion="$( cut -d '.' -f 1 -f 2 <<< "$HAPVersion" )"
+shortHAPVersion="$(cut -d '.' -f 1 <<< "$HAPVersion")"."$(cut -d '.' -f 2 <<< "$HAPVersion")"
 
 ## Download the latest version of HA Proxy Source
 wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.tar.gz -O haproxy-$HAPVersion.tar.gz &> /dev/null
