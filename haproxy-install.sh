@@ -1,5 +1,6 @@
 #!/bin/bash
-
+echo ""
+echo ""
 cat << "EOF"
 .---------------------------------.           
 |  .---------------------------.  |           
@@ -21,7 +22,9 @@ cat << "EOF"
 |     |  |___|           |     |  |           
 \_____|__________________|_____|__|
 EOF
-
+echo ""
+echo ""
+echo ""
 ## Settings
 etcdir=/etc/haproxy
 rundir=/run/haproxy
@@ -32,19 +35,23 @@ haproxyconffile=/etc/haproxy/haproxy.cfg
 ## Install pre-requisites if not already installed
 echo "Installing pre-requisites if not already installed..."
 yum install -y wget gcc pcre-static pcre-devel &> /dev/null
+echo ""
 
 echo "Please enter the version of HA Proxy you would like to install (eg 1.7.4 or 1.8.4):"
 read HAPVersion
 shortHAPVersion="$(cut -d '.' -f 1 <<< "$HAPVersion")"."$(cut -d '.' -f 2 <<< "$HAPVersion")"
 
 ## Download the latest version of HA Proxy Source
-wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.tar.gz -O haproxy-$HAPVersion.tar.gz
+echo "Downloading haproxy-$HAPVersion.tar.gz from HAProxy..."
+wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.tar.gz -O haproxy-$HAPVersion.tar.gz &> /dev/null
+echo ""
 
 ## Uncompress the tar and remove downloaded archive
 echo "Uncompressing tar archive..."
 tar xzvf haproxy-$HAPVersion.tar.gz &> /dev/null
-echo "Removing old tar archive"
+echo "Removing old tar archive..."
 rm haproxy-$HAPVersion.tar.gz &> /dev/null
+echo ""
 
 ## Navigate to newly created directory
 cd haproxy-$HAPVersion
@@ -52,14 +59,18 @@ cd haproxy-$HAPVersion
 ## Run MAKE on contents
 echo "Building source, please wait..."
 make TARGET=generic ARCH=native CPU=$(uname -m) -j8 &> /dev/null
+echo ""
 
 ## Install newly compiled source
-echo "Installing HA Proxy..."
-make install PREFIX=/usr
+echo "Installing HAProxy $HAPVersion ..."
+make install PREFIX=/usr &> /dev/null
+echo ""
 
 ## Copy HAProxy example init.d file to /etc/init.d/haproxy
+echo "Creating Init Scripts..."
 cp ~/haproxy-$HAPVersion/examples/haproxy.init /etc/init.d/haproxy 
 chmod 755 /etc/init.d/haproxy
+echo ""
 
 ## Check for pre-existing directories/files and create if needed
     if [ ! -d "$etcdir" ]
@@ -98,9 +109,14 @@ chmod 755 /etc/init.d/haproxy
     fi
 
 ## Create new user for HAProxy to run as
+echo "Adding haproxy user (if not already created)..."
 useradd -r haproxy
+echo ""
 
 ## Reload system daemon to recognize newly created HAproxy init.d file
+echo "Finishing up, reloading daemon-reload"
 systemctl daemon-reload
+echo ""
 
+## Install complete, give user the good news.
 echo "HA Proxy $HAPVersion Installed and example configuration copied, you may now configure and start HA Proxy."
