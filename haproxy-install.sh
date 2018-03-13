@@ -30,7 +30,7 @@ read HAPVersion
 shortHAPVersion="$(cut -d '.' -f 1 <<< "$HAPVersion")"."$(cut -d '.' -f 2 <<< "$HAPVersion")"
 
 ## Download the latest version of HA Proxy Source
-wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.tar.gz -O haproxy-$HAPVersion.tar.gz &> /dev/null
+wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.tar.gz -O haproxy-$HAPVersion.tar.gz
 
 ## Uncompress the tar and remove downloaded archive
 echo "Uncompressing tar archive..."
