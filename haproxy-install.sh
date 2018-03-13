@@ -22,6 +22,13 @@ cat << "EOF"
 \_____|__________________|_____|__|
 EOF
 
+## Settings
+etcdir=/etc/haproxy
+rundir=/run/haproxy
+varlibdir=/var/lib/haproxy
+statsfile=/var/lib/haproxy/stats
+haproxyconffile=/etc/haproxy/haproxy.cfg
+
 ## Install pre-requisites if not already installed
 echo "Installing pre-requisites if not already installed..."
 yum install -y wget gcc pcre-static pcre-devel &> /dev/null
@@ -54,12 +61,41 @@ make install PREFIX=/usr
 cp ~/haproxy-$HAPVersion/examples/haproxy.init /etc/init.d/haproxy 
 chmod 755 /etc/init.d/haproxy
 
-## Create directories (and subdirectories) and files required for HA Proxy
-mkdir -p /etc/haproxy
-mkdir -p /run/haproxy
-mkdir -p /var/lib/haproxy
-touch /var/lib/haproxy/stats
-cp ~/haproxy-$HAPVersion/examples/content-sw-sample.cfg /etc/haproxy/haproxy.cfg
+## Check for pre-existing directories/files and create if needed
+    if [ ! -d "$etcdir" ]
+    then
+        mkdir -p /etc/haproxy
+    else
+        echo "/etc/haproxy directory already exists.. skipping..."
+    fi
+
+    if [ ! -d "$rundir" ]
+    then
+        mkdir -p /run/haproxy
+    else
+        echo "/run/haproxy directory already exists.. skipping..."
+    fi
+
+    if [ ! -d "$varlibdir" ]
+    then
+        mkdir -p /var/lib/haproxy
+    else
+        echo "/var/lib/haproxy directory already exists.. skipping..."
+    fi
+
+    if [ ! -f "$statsfile" ]
+    then
+        touch /var/lib/haproxy/stats
+    else
+        echo "/var/lib/haproxy file already exists.. skipping..."
+    fi
+
+    if [ ! -f "$haproxyconffile" ]
+    then
+        cp ~/haproxy-$HAPVersion/examples/content-sw-sample.cfg /etc/haproxy/haproxy.cfg
+    else
+        echo "/etc/haproxy/haproxy.cfg file already exists.. skipping..."
+    fi
 
 ## Create new user for HAProxy to run as
 useradd -r haproxy
@@ -68,4 +104,3 @@ useradd -r haproxy
 systemctl daemon-reload
 
 echo "HA Proxy $HAPVersion Installed and example configuration copied, you may now configure and start HA Proxy."
-echo "systemctl start haproxy"
