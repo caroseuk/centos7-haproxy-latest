@@ -30,22 +30,27 @@ read HAPVersion
 shortHAPVersion="$( cut -d '.' -f 1 -f 2 <<< "$HAPVersion" )"
 
 ## Download the latest version of HA Proxy Source
-wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.tar.gz -O haproxy-$HAPVersion.tar.gz
+wget http://www.haproxy.org/download/$shortHAPVersion/src/haproxy-$HAPVersion.tar.gz -O haproxy-$HAPVersion.tar.gz &> /dev/null
 
-## Uncompress the tar
-tar xzvf haproxy-$HAPVersion.tar.gz
+## Uncompress the tar and remove downloaded archive
+echo "Uncompressing tar archive..."
+tar xzvf haproxy-$HAPVersion.tar.gz &> /dev/null
+echo "Removing old tar archive"
+rm haproxy-$HAPVersion.tar.gz &> /dev/null
 
 ## Navigate to newly created directory
 cd haproxy-$HAPVersion
 
 ## Run MAKE on contents
-make TARGET=generic ARCH=native CPU=`uname -m` -j8
+echo "Building source, please wait..."
+make TARGET=generic ARCH=native CPU=`uname -m` -j8 &> /dev/null
 
 ## Install newly compiled source
+echo "Installing HA Proxy..."
 make install PREFIX=/usr
 
 ## Copy HAProxy example init.d file to /etc/init.d/haproxy
-cp ~/haproxy-$HAPVersion/examples/haproxy.init /etc/init.d/haproxy
+cp ~/haproxy-$HAPVersion/examples/haproxy.init /etc/init.d/haproxy 
 chmod 755 /etc/init.d/haproxy
 
 ## Create directories (and subdirectories) and files required for HA Proxy
