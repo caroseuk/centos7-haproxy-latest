@@ -1,21 +1,26 @@
 #!/bin/bash
 
-echo ""
-echo ""
-echo ""
-echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
-echo ""
-echo "  HA Proxy From Source Installer"
-echo ""
-echo ""
-echo "  Written by Chris Rose (2018)"
-echo "  https://github.com/caroseuk/"
-echo ""
-echo "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="
-echo ""
-echo ""
-echo ""
-echo ""
+cat << "EOF"
+.---------------------------------.           
+|  .---------------------------.  |           
+|[]|                           |[]|           
+|  |     Author: Chris Rose    |  |           
+|  |                           |  |           
+|  |                           |  |           
+|  |          HAPROXY          |  |           
+|  |         INSTALLER         |  |           
+|  |       (From Source)       |  |           
+|  |                           |  |           
+|  |    github.com/caroseuk/   |  |           
+|  `---------------------------'  |           
+|      __________________ _____   |           
+|     |   ___            |     |  |           
+|     |  |   |           |     |  |           
+|     |  |   |           |     |  |           
+|     |  |   |           |     |  |           
+|     |  |___|           |     |  |           
+\_____|__________________|_____|__|
+EOF
 
 ## Install pre-requisites if not already installed
 echo "Installing pre-requisites if not already installed..."
